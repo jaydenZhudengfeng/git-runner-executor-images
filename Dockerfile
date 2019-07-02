@@ -7,7 +7,7 @@ MAINTAINER jaydenZhudengfeng
 RUN apt-get update
 
 # Install PHP and composer dependencies
-RUN apt-get install -qq git curl libmcrypt-dev libjpeg-dev libpng-dev libfreetype6-dev libbz2-dev
+RUN apt-get install bcmath mbstring zip opcache pdo pdo_mysql opcache json imap gd curl exif pcntl
 
 # Clear out the local repository of retrieved package files
 RUN apt-get clean
@@ -17,13 +17,7 @@ RUN apt-get clean
 RUN docker-php-ext-install pdo_mysql zip gd pcntl opcache bcmath
 
 #RUN apt-get install -y php-mongodb
-RUN pecl install mongodb \
-    && docker-php-ext-enable mongodb
-
-RUN apt-get install -y php-gd
-RUN apt-get install -y php-curl
-RUN apt-get install -y php-zip
-RUN apt-get install -y phpunit
+RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 # |--------------------------------------------------------------------------
 # | Composer
