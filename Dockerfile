@@ -1,5 +1,5 @@
 # Set the base image for subsequent instructions
-FROM php:7.2
+FROM php:7.2-fpm
 
 MAINTAINER jaydenZhudengfeng
 
@@ -14,9 +14,10 @@ RUN apt-get clean
 
 # Install needed extensions
 # Here you can install any other extension that you need during the test and deployment process
+
 #RUN apt-get install -y php-mongodb
 RUN pecl install mongodb-1.4.2.tgz
-RUN echo "extension=mongodb.so" > `/usr/local/lib/php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+RUN echo "extension=mongodb.so" > `/usr/local/php7/bin/php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
 
 RUN apt-get install -y php-gd
 RUN apt-get install -y php-curl
