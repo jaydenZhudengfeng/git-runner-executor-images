@@ -14,7 +14,14 @@ RUN apt-get clean
 
 # Install needed extensions
 # Here you can install any other extension that you need during the test and deployment process
-RUN docker-php-ext-install pdo pdo_mysql zip gd pcntl opcache bcmath mongo
+#RUN apt-get install -y php-mongodb
+RUN pecl install mongodb
+RUN echo "extension=mongodb.so" > /etc/php/7.2/mods-available/mongodb.ini && phpenmod -v 7.2 mongodb
+
+RUN apt-get install -y php-gd
+RUN apt-get install -y php-curl
+RUN apt-get install -y php-zip
+RUN apt-get install -y phpunit
 
 # |--------------------------------------------------------------------------
 # | Composer
