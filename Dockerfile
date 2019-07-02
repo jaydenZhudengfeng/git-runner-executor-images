@@ -15,8 +15,8 @@ RUN apt-get clean
 # Install needed extensions
 # Here you can install any other extension that you need during the test and deployment process
 #RUN apt-get install -y php-mongodb
-RUN pecl install mongodb
-RUN echo "extension=mongodb.so" > /etc/php/7.2/mods-available/mongodb.ini && phpenmod -v 7.2 mongodb
+RUN pecl install mongodb-1.4.2.tgz
+RUN echo "extension=mongodb.so" > `/usr/local/php7/bin/php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
 
 RUN apt-get install -y php-gd
 RUN apt-get install -y php-curl
