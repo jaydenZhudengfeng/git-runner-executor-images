@@ -25,32 +25,3 @@ RUN docker-php-ext-install pdo pdo_mysql mcrypt zip gd pcntl opcache bcmath mong
 RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer &&\
     composer config -g repo.packagist composer https://packagist.laravel-china.org
     # remove composer config -g repo.packagist composer https://packagist.laravel-china.org if you don't locate in China.
-
-# |--------------------------------------------------------------------------
-# | NodeJS
-# |--------------------------------------------------------------------------
-# |
-# | Installs NodeJS and npm. The later will allow you to easily manage
-# | your frontend dependencies.
-# |
-
-RUN apt-get update &&\
-    apt-get install -y --no-install-recommends gnupg &&\
-    curl -sL https://deb.nodesource.com/setup_10.x | bash - &&\
-    apt-get update &&\
-    apt-get install -y --no-install-recommends nodejs &&\
-    npm config set registry https://registry.npm.taobao.org --global
-    # remove npm config set registry https://registry.npm.taobao.org --global if you don't locate in China.
-
-
-# |--------------------------------------------------------------------------
-# | Ansible
-# |--------------------------------------------------------------------------
-# |
-# | Installs ansible. The later will allow you deploy project to remote server
-# | and execute operation on target server remotely from this build enviornment.
-# |
-RUN apt-get update &&\
-    apt-get install -y --no-install-recommends python-setuptools &&\
-    apt-get install -y --no-install-recommends python-pip &&\
-    pip install ansible
