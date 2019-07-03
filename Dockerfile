@@ -14,7 +14,20 @@ RUN apt-get clean
 
 # Install needed extensions
 # Here you can install any other extension that you need during the test and deployment process
-RUN docker-php-ext-install pdo_mysql zip gd pcntl opcache bcmath
+RUN docker-php-ext-install \
+	bcmath \
+	mbstring \
+	zip \
+	opcache \
+	pdo \
+	pdo_mysql \
+	opcache \
+	json \
+	imap \
+	gd \
+	curl \
+	exif \
+	pcntl
 
 #RUN apt-get install -y php-mongodb
 RUN pecl install mongodb && docker-php-ext-enable mongodb
