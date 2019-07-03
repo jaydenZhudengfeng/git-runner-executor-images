@@ -7,27 +7,14 @@ MAINTAINER jaydenZhudengfeng
 RUN apt-get update
 
 # Install PHP and composer dependencies
-RUN apt-get install bcmath mbstring zip opcache pdo pdo_mysql opcache json imap gd curl exif pcntl
+ RUN apt-get install -qq git curl libmcrypt-dev libjpeg-dev libpng-dev libfreetype6-dev libbz2-dev
 
 # Clear out the local repository of retrieved package files
 RUN apt-get clean
 
 # Install needed extensions
 # Here you can install any other extension that you need during the test and deployment process
-RUN docker-php-ext-install \
-	bcmath \
-	mbstring \
-	zip \
-	opcache \
-	pdo \
-	pdo_mysql \
-	opcache \
-	json \
-	imap \
-	gd \
-	curl \
-	exif \
-	pcntl
+RUN docker-php-ext-install 	bcmath mbstring zip opcache pdo pdo_mysql opcache json imap gd curl exif pcntl
 
 #RUN apt-get install -y php-mongodb
 RUN pecl install mongodb && docker-php-ext-enable mongodb
