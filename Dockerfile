@@ -15,7 +15,7 @@ RUN apt-get clean
 # Install needed extensions
 # Here you can install any other extension that you need during the test and deployment process
 RUN docker-php-ext-configure \
-    imap --with-kerberos --with-imap-ssl
+    imap --with-kerberos=/usr --with-imap-ssl=/usr
 
 RUN docker-php-ext-configure \
 	gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
