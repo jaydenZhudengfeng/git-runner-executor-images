@@ -41,3 +41,5 @@ RUN pecl install mongodb && docker-php-ext-enable mongodb
 RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer &&\
     composer config -g repo.packagist composer https://packagist.laravel-china.org
     # remove composer config -g repo.packagist composer https://packagist.laravel-china.org if you don't locate in China.
+
+RUN composer global require deployer/deployer -vvv
