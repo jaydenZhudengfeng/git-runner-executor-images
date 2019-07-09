@@ -1,0 +1,73 @@
+stages:
+  - build
+  - test
+  - deploy
+ 
+# Variables
+variables:
+  MYSQL_ROOT_PASSWORD: root
+  MYSQL_USER: menco
+  MYSQL_PASSWORD: secret
+  MYSQL_DATABASE: threeMicros
+  DB_HOST: mysql
+
+  # MONGO_INITDB_ROOT_USERNAME: 
+  # MONGO_INITDB_ROOT_PASSWORD: 
+
+# cache vendor packages between jobs
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - vendor/
+
+build:
+  stage: build
+  image: zhudengfeng/php7.2-mongo
+  script:
+    - /usr/local/bin/composer install
+  only:
+    - deploy-test
+  tags:
+    - docker-tag
+
+# test-dev:
+#   stage: test
+#   image: zhudengfeng/php7.2-mongo
+#   services:
+#     - mysql:5.7
+#     - mongo:4.0 
+#   script:
+#     - cp -a .env.example .env
+#     - php artisan key:generate
+#     - php artisan migrate:refresh --seed
+#     - ./vendor/bin/phpunit
+#   only:
+#     - deploy-test
+#   tags:
+#     - docker-tag
+
+# strategy local deploy test 
+deploy:
+  stage: deploy
+  image: zhudengfeng/php7.2-mongo
+  script:
+    - mkdir -p ~/.ssh #ssh免密登陆
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r'  > /root/.ssh/deployerkey
+    - chmod -R 600 ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts 
+    - chmod 644 ~/.ssh/known_hosts
+    - echo "$SSH_CONFIG" > ~/.ssh/config #为了防止ssh断开
+    - chmod 644 ~/.ssh/config
+
+    - PATH=$PATH:/root/.composer/vendor/bin
+    - dep deploy -vvv
+  environment:
+    name: test
+    url: http://yangguo.menco.cn/
+  when: manual
+  only:
+    - deploy-test
+  tags:
+    - docker-tag
+
+
